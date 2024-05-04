@@ -1,0 +1,68 @@
+title = "beje.dev"
+base_url = "https://beje.dev"
+
+compile_sass = true
+build_search_index = false
+minify_html = true
+generate_feed = true
+
+default_language = "en"
+
+taxonomies = [{ name = "tags", feed = true }]
+
+theme = "tabi"
+
+[markdown]
+highlight_code = true
+highlight_theme = "css"
+smart_punctuation = true
+
+[extra]
+# General theme config
+skin = "lavender"
+default_theme = "dark"
+toc = true
+favicon_emoji = "👾"
+
+# Removing unneeded JS
+theme_switcher = false
+copy_button = false
+
+# Adding just a little JS (685 bytes)
+footnote_backlinks = true
+
+# Header
+menu = [
+    { name = "writeups", url = "writeups", trailing_slash = true },
+    { name = "projects", url = "projects", trailing_slash = true },
+]
+
+# Footer
+socials = [
+    { name = "github", url = "https://github.com/arielbeje/", icon = "github" },
+]
+feed_icon = true
+# footer_menu = [
+#     { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
+# ]
+copyright = "© $CURRENT_YEAR arielbeje, under the CC BY-SA 4.0 & MIT license $SEPARATOR See [about](/about#copyright) page for more info."
+
+# CSP
+enable_csp = true
+allowed_domains = [
+    { directive = "font-src", domains = [
+        "'self'",
+        "data:",
+    ] },
+    { directive = "img-src", domains = [
+        "'self'",
+        "https://*",
+        "data:",
+    ] },
+    { directive = "script-src", domains = [
+        "'self'",
+    ] },
+    { directive = "style-src", domains = [
+        "'self'",
+    ] },
+]
