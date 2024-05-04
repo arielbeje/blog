@@ -16,6 +16,7 @@ theme = "tabi"
 highlight_code = true
 highlight_theme = "css"
 smart_punctuation = true
+extra_syntaxes_and_themes = ["syntaxes"]
 
 [extra]
 # General theme config
