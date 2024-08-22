@@ -13,14 +13,13 @@ Looking at the code, we find that it adds a syscall with the number
 `NR_SYS_UNUSED` (223), and that its source code is as follows:
 
 ```c
-asmlinkage long sys_upper(char *in, char* out){
+asmlinkage long sys_upper(char* in, char* out) {
     int len = strlen(in);
     int i;
-    for(i=0; i<len; i++){
-        if(in[i]>=0x61 && in[i]<=0x7a){
+    for (i = 0; i < len; i++) {
+        if (in[i] >= 0x61 && in[i] <= 0x7a) {
             out[i] = in[i] - 0x20;
-        }
-        else{
+        } else {
             out[i] = in[i];
         }
     }
@@ -37,7 +36,7 @@ It doesn't do _any_ verification on the given pointers, and that allows using it
 of `memcpy`, with entirely user-controlled addresses.
 
 It doesn't allow copying buffers containing `0x00` (`NULL`) bytes (due to `strlen` checking
-for them), but bytes from `0x61` to `0x7a` can be copied, as long as they're inputted with
+for them), but bytes from `0x61` to `0x7a` can be copied, as long as they're input with
 a `0x20` offset.
 
 In short, **we have an arbitrary write primitive on the kernel's memory**. We can also use it
@@ -185,8 +184,7 @@ The function is exported, so I checked `/proc/kallsyms`[^proc].
 ### Writing our payload
 
 I initially assumed that this was an `x86_64` machine, however, attempting to run the payload
-with `x86_64` instructions failed.
-
+with `x86_64` instructions failed.\
 Looking at the boot logs[^cpu], I found `CPU: ARMv7 Processor [...]`. Definitely no x86 here.
 
 Well, I don't know much ARM at all, so I headed to [Compiler Explorer](https://godbolt.org/)
@@ -219,10 +217,10 @@ That was great news for me, since:
 
 - `r0` will always have a truthy (non-zero) value when `inode_capable` is called (it should be
     a valid pointer).
-- I just needed one opcode (`bx lr`) at the start of the function to end it.
+- Therefore, I just needed one opcode (`bx lr`) at the start of the function to end it.
 
 To get the opcode bytes, I enabled `Link to binary` in the output options. `bx lr`
-is `0xe12fff1e`. Not `NULL` bytes, or even any bytes in the `0x61`-`0x7a` range (affected by
+is `0xe12fff1e`. No `NULL` bytes, or even any bytes in the `0x61`-`0x7a` range (affected by
 `sys_upper`), which means I could send the bytes as they are.
 
 ## Running the exploit
