@@ -1,6 +1,7 @@
 +++
 title = "pwnable.kr - syscall"
 date = 2024-05-03
+updated = 2023-08-23
 
 [taxonomies]
 tags = ["pwnable.kr", "linux", "binary exploitation"]
@@ -172,6 +173,14 @@ The function is exported, so I checked `/proc/kallsyms`[^proc].
 / $ cat /proc/kallsyms | grep inode_capable
 80027cac T inode_capable
 ```
+
+> The kernel [doesn't allow reading `/proc/kallsyms` as a non-root user by default](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=455cd5ab305c90ffc422dd2e0fb634730942b257).\
+> However, in this machine, that feature seems to be off:
+>
+> ```bash
+> / $ cat /proc/sys/kernel/kptr_restrict
+> 0
+> ```
 
 ### Writing our payload
 
