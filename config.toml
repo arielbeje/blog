@@ -21,6 +21,7 @@ extra_syntaxes_and_themes = ["syntaxes"]
 [extra]
 # General theme config
 skin = "lavender"
+browser_theme_color = ["#9055d8", "#cba2e8"] # light, dark
 default_theme = "dark"
 toc = true
 favicon_emoji = "👾"
